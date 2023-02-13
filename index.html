@@ -1,0 +1,294 @@
+<div id="main_wrapper">
+  <div id="main">
+    <h1>Modified Pomodoro Technique</h1>
+
+    <h2>Sessions</h2>
+    <div id="sessions">
+      <input id="restore" type="button" value="Restore" onclick="sync()" />
+      <input
+        id="restart"
+        type="button"
+        value="Restart"
+        onclick="start()"
+        disabled
+      />
+    </div>
+
+    <h2>Timers</h2>
+    <div id="timer_main">
+      <div id="task">
+        <input
+          id="task_input"
+          type="text"
+          placeholder="Type your task"
+          disabled
+        />
+      </div>
+
+      <div id="buttons" disabled>
+        <input
+          id="switch_mode_button"
+          type="button"
+          value="Start working"
+          onclick="switchMode()"
+          disabled
+        />
+        <input
+          id="take_long_break_button"
+          type="button"
+          value="Take a 30 min break"
+          onclick="takeLongBreak()"
+          disabled
+        />
+      </div>
+
+      <div id="forms">
+        <h2>Work Block Timer</h2>
+        <form name="work_timer">
+          <input type="number" value="0" readonly />:<input
+            type="number"
+            value="25"
+            readonly
+          />:<input type="number" value="0" readonly />
+        </form>
+
+        <h2>Break Timer</h2>
+        <form name="break_timer">
+          <input type="number" value="0" readonly />:<input
+            type="number"
+            value="5"
+            readonly
+          />:<input type="number" value="0" readonly />
+        </form>
+
+        <h2>Total Working Time</h2>
+        <form name="total_working_timer">
+          <input type="number" value="0" readonly />:<input
+            type="number"
+            value="0"
+            readonly
+          />:<input type="number" value="0" readonly />
+        </form>
+      </div>
+
+      <div id="long_break_timer">
+        <h2>Long Break Timer</h2>
+        <form name="long_break_timer">
+          <input type="number" value="5" readonly />:<input
+            type="number"
+            value="0"
+            readonly
+          />:<input type="number" value="0" readonly />
+        </form>
+      </div>
+
+      <div id="history">
+        <h2>History</h2>
+      </div>
+      <div class="table-wrapper">
+        <table id="history_table">
+          <tbody id="history_table_body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="summary">
+      <div id="summary_header"></div>
+      <input
+        id="summarize_button"
+        type="button"
+        value="Summarize"
+        onclick="summarize()"
+        disabled
+      />
+    </div>
+    <div class="table-wrapper" id="summary_table_wrapper">
+      <table id="summary_table">
+        <tbody id="summary_table_tbody">
+          <tr>
+            <th>Start Date</th>
+            <td class="task_name">Job Name</td>
+            <td>Work</td>
+            <td>Break</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="./js/timer.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap"
+  rel="stylesheet"
+/>
+
+<style>
+  body {
+    font-family: "Lato", "Noto Sans JP", sans-serif;
+  }
+
+  #sessions,
+  #task,
+  #buttons,
+  #history,
+  #summary {
+    text-align: center;
+  }
+
+  #summarize_button {
+    margin-top: 20px;
+  }
+
+  #main {
+    text-align: center;
+    display: inline-block;
+    width: 800px;
+    max-width: 100%;
+  }
+
+  #main_wrapper {
+    width: 100%;
+    text-align: center;
+  }
+
+  #long_break_timer {
+    display: none;
+  }
+
+  #summary_table_wrapper {
+    visibility: hidden;
+  }
+
+  #forms {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  #start {
+    height: 50px;
+    border-radius: 6px;
+  }
+
+  #copy {
+    background: none;
+    border: none;
+    color: gray;
+    font-size: 90%;
+  }
+
+  #task_input:disabled {
+    background-color: "#f0f0f0";
+  }
+
+  form {
+    font-size: 5vmax;
+    color: gray;
+  }
+
+  input {
+    border: none;
+    font-family: "Lato", sans-serif;
+  }
+
+  input[type="text"] {
+    min-width: 75%;
+    max-width: 90%;
+    margin-right: 20px;
+    margin-left: 20px;
+    font-size: 23px;
+    font-family: "Noto Sans JP", sans-serif;
+    background: none;
+    text-align: center;
+    border: 1px solid #aaa;
+    margin-bottom: 40px;
+    border-radius: 6px;
+    height: 50px;
+  }
+
+  input:focus,
+  button:focus {
+    outline: none;
+  }
+
+  input[type="text"]:focus::placeholder {
+    opacity: 0;
+  }
+
+  input[type="number"] {
+    width: 28%;
+    background: none;
+    font-size: 4vmax;
+    text-align: center;
+  }
+
+  input[type="button"] {
+    font-size: 23px;
+    /* font-size: 20px; */
+    height: 50px;
+    width: 300px;
+    max-width: 90%;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+  }
+
+  .task_name {
+    width: 50%;
+  }
+
+  table th {
+    padding-left: 10px;
+    width: 23%;
+  }
+
+  table {
+    word-wrap: break-word;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+  }
+
+  .table-wrapper > table tbody tr td {
+    white-space: normal;
+  }
+
+  @media (min-width: 520px) {
+    table {
+      table-layout: fixed;
+    }
+  }
+
+  h1 {
+    position: relative;
+    display: inline-block;
+    padding: 0 45px;
+  }
+  h1:before,
+  h1:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    display: inline-block;
+    width: 44px;
+    height: 2px;
+    background-color: black;
+    -webkit-transform: rotate(-60deg);
+    transform: rotate(-60deg);
+  }
+  h1:before {
+    left: 0;
+  }
+  h1:after {
+    right: 0;
+  }
+</style>
