@@ -2,7 +2,7 @@
   <div id="main">
     <h1>Modified Pomodoro Technique</h1>
 
-    <h2>Sessions</h2>
+    <h2>Session</h2>
     <div id="sessions">
       <input id="restore" type="button" value="Restore" onclick="sync()" />
       <input
@@ -135,6 +135,11 @@
     font-family: "Lato", "Noto Sans JP", sans-serif;
   }
 
+  h1,
+  h2 {
+    font-weight: normal;
+  }
+
   #sessions,
   #task,
   #buttons,
@@ -145,6 +150,10 @@
 
   #summarize_button {
     margin-top: 20px;
+  }
+
+  #summary_table_wrapper {
+    margin-bottom: 20px;
   }
 
   #main {

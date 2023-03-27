@@ -15,7 +15,6 @@ class Timer:
         self.can_take_long_break: bool = True
         self.task_name: str = None
         self.work_timer: int = 1500
-        # self.break_timer: int = 5
         self.break_timer: int = 300
         self.total_working_timer: int = 0
         self.is_lazy: bool = False
@@ -54,20 +53,20 @@ class Timer:
         self.histories.append(row)
 
     def start_break(self, break_time: int = 0) -> None:
+        if break_time >= 1800:
+            if not self.can_take_long_break:
+                return
         self.status = "break"
         self.break_timer += break_time
         row = ["start_break", datetime.now(), "Break"]
         print(row)
         self.histories.append(row)
+        if break_time >= 1800:
+            self.take_long_break()
 
-    def take_long_break(self, break_time: int = 0) -> None:
-        if not self.can_take_long_break:
-            return
-        self.start_break(break_time)
+    def take_long_break(self) -> None:
         self.can_take_long_break = False
-        # self.long_break_cnt = 1800
-        # while
-        sleep(1800)
+        sleep(21600)
         self.can_take_long_break = True
 
     def terminate(self) -> str:
@@ -110,6 +109,7 @@ class Timer:
                 # Start new task
                 current_task_name = content
                 task_start_dt = dt
+                total_work_timedelta += current_task_timedelta
                 current_break_timedelta = timedelta(0)
 
         total_break_str = self.utils.convert_timedelta_to_str(total_break_timedelta)
@@ -121,7 +121,10 @@ class Timer:
         return self.summary_text
 
     def main(self, break_time) -> None:
+        if self.status not in ["not_started", "finished"]:
+            self.summarize()
         self.reset()
+        sleep(3)
         self.histories.append(["start_work", datetime.now(), "Opening"])
         self.start_break(break_time)
         while True:
@@ -129,6 +132,9 @@ class Timer:
             if self.status == "work":
                 self.work_timer -= 1
                 self.total_working_timer += 1
+                if self.work_timer == -1:
+                    self.work_timer = 1500
+                    self.break_timer += 300
             elif self.status == "break":
                 self.break_timer -= 1
                 if self.break_timer <= 0:

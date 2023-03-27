@@ -59,11 +59,7 @@ def start_break(break_time: int = 0) -> None:
     timer.start_break(break_time)
 
 
-@app.put("/start_long_break/")
-def start_long_break(background_tasks: BackgroundTasks, break_time: int = 0) -> None:
-    background_tasks.add_task(timer.start_long_break(break_time))
-
-
 @app.put("/start_work/")
 def start_work(task_name: str = "working") -> None:
     timer.start_work(task_name)
+
