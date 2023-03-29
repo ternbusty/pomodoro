@@ -73,6 +73,8 @@ class Timer:
         self.reset()
 
     def summarize(self) -> str:
+        if self.status in ["not_started", "finished"]:
+            return
         self.histories.append(["end", datetime.now(), "End today's job"])
         print(self.histories)
         current_task_name: str = None
@@ -122,7 +124,8 @@ class Timer:
 
     def main(self, break_time) -> None:
         if self.status not in ["not_started", "finished"]:
-            self.summarize()
+            return
+            # self.summarize()
         self.reset()
         sleep(3)
         self.histories.append(["start_work", datetime.now(), "Opening"])
@@ -135,11 +138,12 @@ class Timer:
                 if self.work_timer == -1:
                     self.work_timer = 1500
                     self.break_timer += 300
+                self.is_lazy = False
             elif self.status == "break":
                 self.break_timer -= 1
                 if self.break_timer <= 0:
                     self.is_lazy = True
-                    if self.break_timer % 90 == 0:
+                    if (self.break_timer % 90 == 0) and (self.break_timer != 0):
                         try:
                             thread = threading.Thread(target=self.utils.call_me, name="callMe")
                             thread.start()
