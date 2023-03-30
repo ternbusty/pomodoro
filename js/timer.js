@@ -50,11 +50,11 @@ window.sync = function () {
       console.log(data);
       let backend_status = data["status"];
       // Update frontend depends on backend status
-      if (backend_status !== "not_started" && backend_status !== "finished") {
+      if (backend_status !== "not_started" && backend_status !== "finished" && backend_status !== "pause") {
         // disable: restart button
         window.restart.disabled = true;
       } else {
-        // not started or finished
+        // not started or finished or pause
         // - enable: restart
         // - disable: task_input, switch_button, take_long_break, summarize_button
         window.restart.disabled = false;
@@ -77,6 +77,10 @@ window.sync = function () {
           break;
         case "break":
           work2break(true);
+          break;
+        case "pause":
+          resetAllElements();
+          window.restart.disabled = false;
       }
       // Set taskname from backend
       let backend_taskname = data["task_name"];
@@ -281,25 +285,18 @@ function resetAllElements() {
 
 window.start = function (isCalledBackend = false) {
   // If is called from frontend, call backend process
-  if (!isCalledBackend) {
-    fetch(`${server_address}/terminate/`, {
-      method: "PUT",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        resetAllElements();
-        fetch(`${server_address}/start/`, {
-          method: "PUT",
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            work2break(isCalledBackend);
-            // Update frontend
-            window.restart.disabled = true;
-            window.take_long_break_button.disabled = false;
-          });
-      });
-  }
+  resetAllElements();
+  fetch(`${server_address}/start/`, {
+    method: "PUT",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // break has aleardy started above, so no need to call /start_break here
+      work2break(true);
+      // Update frontend
+      window.restart.disabled = true;
+      window.take_long_break_button.disabled = false;
+    });
 };
 
 window.switchMode = function (isCalledBackend = false) {

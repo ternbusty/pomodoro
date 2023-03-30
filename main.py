@@ -44,8 +44,13 @@ def summarize() -> None:
     return timer.summarize()
 
 
+@app.put("/pause/")
+def pause() -> None:
+    return timer.pause()
+
+
 @app.put("/terminate/")
-def summarize() -> None:
+def terminate() -> None:
     return timer.terminate()
 
 
@@ -62,4 +67,3 @@ def start_break(break_time: int = 0) -> None:
 @app.put("/start_work/")
 def start_work(task_name: str = "working") -> None:
     timer.start_work(task_name)
-

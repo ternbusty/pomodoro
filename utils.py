@@ -7,8 +7,18 @@ class Utils:
     def __init__(self) -> None:
         pass
 
+    def add_quotation(self, str) -> str:
+        if str[0] != '"':
+            str = '"' + str
+        if str[-1] != '"':
+            str += '"'
+        return str
+
     def format_date(self, datetime) -> str:
         return datetime.strftime("%Y-%m-%d %H:%M")
+    
+    def format_time(self, datetime) -> str:
+        return datetime.strftime("%H:%M")
 
     def convert_timedelta_to_str(self, timedelta):
         hours, remainder = divmod(timedelta.seconds, 3600)
